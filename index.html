@@ -6,16 +6,20 @@ body{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset
 #record{text-align:center;font-size:13px;font-weight:700;margin-top:10px}.tiltPref{display:flex;align-items:center;gap:9px;margin-top:12px;border-top:1px solid #ced3c1;padding-top:9px}.tiltPref button{border:1px solid #99b39f;border-radius:8px;padding:7px 10px;min-height:44px;background:#f2f5e9;font-size:12px;font-weight:700}.tiltPref span{flex:1;font-size:12px;line-height:1.35}
 body.racing{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}.racing main,.racing .stage,.racing button{touch-action:none}.racing details{display:none}.drive,.hud{pointer-events:none}.drive button,.hud button{pointer-events:auto}#brake{min-width:88px;min-height:52px;font-size:15px}#brake:active{background:#397a67}.actions button{width:44px;height:44px}.racing #notice,.racing #tag{top:calc(2% + 69px)}
 @media(max-width:620px){.racing{display:flex;flex-direction:column;height:100%;height:100dvh}.racing header{width:100%;height:46px;flex:0 0 46px}.racing main{width:100%;max-width:560px;flex:1;min-height:0;margin:0 auto;padding:0 4px 3px}.racing #layout{height:100%;border-radius:12px}.racing .stage{width:100%;height:100%;min-height:0;aspect-ratio:auto;border-radius:12px}.drive{bottom:8px}.racing .hud{top:5px}.racing #notice,.racing #tag{top:72px}.racing #sound{min-height:40px}}
+
+.levels{border:0;padding:0;margin:0 0 12px}.levels legend{font-size:15px;font-weight:750;margin:0 0 6px}.levels>div{display:flex;gap:5px}.levels button{flex:1;min-height:40px;border:1px solid #abbcaf;background:#faf8ee;border-radius:7px;font-weight:700;font-size:13px}.levels button[aria-pressed=true]{background:#23584e;color:#fff6de;border-color:#23584e}.tricks{font-size:12px;text-align:center;color:#416458;margin:0 0 8px}
+
+#trickLabel{pointer-events:none;position:absolute;right:5%;top:29%;transform:rotate(-6deg);background:#ffd367;color:#233e38;border-radius:6px;padding:5px 9px;font:italic 800 15px system-ui;box-shadow:0 3px 0 #92671c}
 </style></head><body>
 <header><div class="brand"><i>R</i> RUMBO <span>ARCADE</span></div><button id="sound" aria-pressed="false">♫ &nbsp; Sonido <b>OFF</b></button></header>
 <main><div id="layout"><section class="stage" id="stage" aria-label="Vista previa del estudiante y su vehículo"><canvas id="scene" aria-label="Escenario tridimensional"></canvas>
 <div class="poster"><small><i class="flag"></i> SAN FRANCISCO DE MACORÍS</small><h1>Rumbo a<br>la escuela<span>.</span></h1></div>
 <div class="nameplate"><small>TU EQUIPO</small><strong id="combo"></strong></div>
 <div class="hud" hidden><div><small>PUNTOS</small><output id="score">00000</output></div><div><small>VIDAS</small><output id="lives">♥♥♥</output></div><div class="actions"><button id="restart" aria-label="Reiniciar">↻</button><button id="pause" aria-label="Pausar">Ⅱ</button></div></div>
-<div id="tag" hidden></div><aside id="notice" role="status" hidden><span id="noticeIcon" aria-hidden="true"></span><div><strong id="noticeTitle"></strong><span id="noticeBody"></span></div></aside><div id="overlay" hidden><div><h2 id="message" role="status"></h2><div id="results" hidden><strong id="finalScore"></strong><small>PUNTOS TOTALES</small><p id="finalObstacles"></p><p id="finalSafety"></p><p id="finalBonus"></p><p id="resultRecord"></p></div><button class="primary" id="play"></button><button class="secondary" id="back">Volver al garaje</button></div></div>
+<div id="trickLabel" hidden>360° · ¡Pirueta!</div><div id="tag" hidden></div><aside id="notice" role="status" hidden><span id="noticeIcon" aria-hidden="true"></span><div><strong id="noticeTitle"></strong><span id="noticeBody"></span></div></aside><div id="overlay" hidden><div><h2 id="message" role="status"></h2><div id="results" hidden><strong id="finalScore"></strong><small>PUNTOS TOTALES</small><p id="finalObstacles"></p><p id="finalSafety"></p><p id="finalBonus"></p><p id="resultRecord"></p></div><button class="primary" id="play"></button><button class="secondary" id="back">Volver al garaje</button></div></div>
 <div class="drive" hidden><div><small>Velocidad arcade</small><strong id="speed">000</strong><div id="bars"></div></div><button id="brake">▥ &nbsp; FRENO</button><div class="progress"><span>Casa</span><progress id="progress" max="1" value="0"></progress><span>Escuela</span></div></div></section>
-<section id="garage"><div class="sectiontop"><small>ANTES DE SALIR</small><h2>Tu garaje</h2></div><h3>Estudiante <span id="studentName"></span></h3><div class="choices" id="people" role="group" aria-label="Seleccionar estudiante"></div><p id="bio"></p><h3>Vehículo <span id="vehicleName"></span></h3><div class="choices vehicles" id="vehicles" role="group" aria-label="Seleccionar vehículo"></div><p id="handling"></p><section class="safety"><div><small>SEGURIDAD VIAL</small><p id="helmetStatus" role="status">Coloca el casco y abrocha la correa antes de salir.</p></div><button id="buckle">Colocar y abrochar</button></section><button class="primary" id="go" disabled>Iniciar ruta <span>▶</span></button><div class="trip"><span>Casa → Escuela</span><span>≈ 70 s</span><span>3 vidas</span></div><p id="record"></p><div class="tiltPref"><button type="button" id="tilt" aria-pressed="false">Activar inclinación</button><span id="tiltInfo" role="status"></span></div></section>
-</div><details><summary>Cómo jugar</summary><p>En móvil, toca los bordes o desliza para cambiar de carril. En computadora, usa ← y →. Mantén el freno o la barra espaciadora hasta detenerte. Suelta para acelerar. Pulsa P para pausar.</p></details></main><script>/*The MIT License
+<section id="garage"><div class="sectiontop"><small>ANTES DE SALIR</small><h2>Tu garaje</h2></div><h3>Estudiante <span id="studentName"></span></h3><div class="choices" id="people" role="group" aria-label="Seleccionar estudiante"></div><p id="bio"></p><h3>Vehículo <span id="vehicleName"></span></h3><div class="choices vehicles" id="vehicles" role="group" aria-label="Seleccionar vehículo"></div><p id="handling"></p><fieldset class="levels"><legend>Nivel de la ruta</legend><div id="levels" role="group" aria-label="Velocidad de la ruta"></div></fieldset><section class="safety"><div><small>SEGURIDAD VIAL</small><p id="helmetStatus" role="status">Coloca el casco y abrocha la correa antes de salir.</p></div><button id="buckle">Colocar y abrochar</button></section><p class="tricks">2 toques para saltar · 3 para una pirueta</p><button class="primary" id="go" disabled>Iniciar ruta <span>▶</span></button><div class="trip"><span>Casa → Escuela</span><span id="duration">≈ 70 s</span><span>3 vidas</span></div><p id="record"></p><div class="tiltPref"><button type="button" id="tilt" aria-pressed="false">Activar inclinación</button><span id="tiltInfo" role="status"></span></div></section>
+</div><details><summary>Cómo jugar</summary><p>En móvil, toca los bordes o desliza para cambiar de carril. Da dos toques rápidos en el mismo sitio para saltar una piedra o un hoyo. Con un tercer toque giras en el aire. En computadora, usa ← y → para cambiar de carril, ↑ para saltar y X para la pirueta. Mantén el freno o la barra espaciadora hasta detenerte. Suelta para acelerar. Pulsa P para pausar.</p></details></main><script>/*The MIT License
 
 Copyright © 2010-2023 three.js authors
 
@@ -176,8 +180,11 @@ const obstacles3d=obstacleModels();
 function initRoad(rows){for(const o of rows){let m=obstacles3d[o.type].clone();road.add(m);obstaclePool.push(m)}}
 function trackView(dist,position,lane,time,vel,rows,crossing,hit){resize(raceCam);let advance=dist*.45;for(let j=0;j<cells.length;j++)cells[j].position.z=10-((j*8-advance+12000)%120);
 gate.position.z=-(1480-dist)*.45;gate.visible=gate.position.z>-105;for(let i=0;i<rows.length;i++){let o=rows[i],z=o.at-dist,m=obstaclePool[i];m.visible=z>-2&&z<365;if(!m.visible)continue;m.position.set(crossing(o,z)*3.04,o.type===2?.025*Math.abs(Math.sin(time*7)):0,-(z-18)*.45);if(o.type===2){m.rotation.y=o.lane===-1?Math.PI/2:-Math.PI/2;let legs=m.children.slice(1);legs.forEach((leg,k)=>leg.rotation.x=Math.sin(time*7+k*Math.PI)*.26)}}
-racingRig.position.set(position*3.04,vel>0?.009*Math.sin(time*16):0,0);racingRig.rotation.z=(lane-position)*[.15,.29,.19,.115,.23][selectedVehicle];roadShadow.position.x=racingRig.position.x;activeRider.userData.legs.forEach((l,k)=>{l.rotation.x=selectedVehicle===2?.44*Math.min(1,vel/45)*Math.sin(time*9+k*Math.PI):selectedVehicle===4&&k===1?.44*Math.min(1,vel/45)*Math.max(0,Math.sin(time*3)):0});activeRider.userData.upper.rotation.z=selectedVehicle===4?.085*Math.sin(time*3):0;racingRig.visible=!(hit&&Math.floor(time*12)%2);
-let chaseView=updateSafetyScene(dist,position,time);let followX=racingRig.position.x;raceCam.position.set(followX,2.45+chaseView*.9,5.65+Math.max(0,.60/raceCam.aspect-1)*2.15+chaseView*2.2);raceCam.lookAt(followX*.98,1.08,-7.5);renderer.render(road,raceCam)}
+const lift=airHeight(),u=spinStart>=0?Math.max(0,Math.min(1,(jumpTime-spinStart)/(jumpDuration-spinStart))):0;
+racingRig.position.set(position*3.04,lift+(vel>0?.009*Math.sin(time*16):0),0);
+racingRig.rotation.y=Math.PI+2*Math.PI*u*u*(3-2*u);racingRig.rotation.x=jumpTime>=0?.15*Math.sin(2*Math.PI*jumpTime/jumpDuration):0;
+roadShadow.scale.setScalar(1-lift*.19);racingRig.rotation.z=.32*Math.sin(u*2*Math.PI)+(lane-position)*[.15,.29,.19,.115,.23][selectedVehicle];roadShadow.position.x=racingRig.position.x;activeRider.userData.legs.forEach((l,k)=>{l.rotation.x=selectedVehicle===2?.44*Math.min(1,vel/45)*Math.sin(time*9+k*Math.PI):selectedVehicle===4&&k===1?.44*Math.min(1,vel/45)*Math.max(0,Math.sin(time*3)):0});activeRider.userData.upper.rotation.z=selectedVehicle===4?.085*Math.sin(time*3):0;racingRig.visible=!(hit&&Math.floor(time*12)%2);
+let chaseView=updateSafetyScene(dist,position,time);let followX=racingRig.position.x;raceCam.position.set(followX,2.45+chaseView*.9+lift*.34,5.65+Math.max(0,.60/raceCam.aspect-1)*2.15+chaseView*2.2);raceCam.lookAt(followX*.98,1.08+lift*.37,-7.5);renderer.render(road,raceCam)}
 function roadsideBoard(label,color){const p=group();rod(p,metal,[4.55,.1,0],[4.55,2.45,0],.06);let board=sign(label,color,'#fff9e5',1.72,.58);board.position.set(4.55,2.34,.05);p.add(board);return p}
 const traffic3d=roadsideBoard('SEMÁFORO','#475550'),bump3d=roadsideBoard('REDUCTOR','#99540e'),check3d=roadsideBoard('RETÉN','#275d83'),dogSign=roadsideBoard('PERROS','#965021');
 for(let g of [traffic3d,bump3d,check3d,dogSign])road.add(g);
@@ -220,7 +227,7 @@ function updateEvents(dt,before){
     if(r.wait>=2.35){r.done=true;r.waiting=false;if(!r.mistake)award(150);tell(i===0?'Luz verde':'El agente da paso',(r.mistake?'':'Parada correcta · +150 puntos. ')+'Suelta el freno y continúa.');}continue}
    const near=distance>=spec.at-8;
    if((near&&braking&&velocity<=96)||distance>=spec.at){
-    r.mistake=!(near&&braking&&velocity<=96);r.waiting=true;r.stopAt=r.mistake?spec.at-4:Math.min(distance,spec.at-1);distance=r.stopAt;velocity=0;
+    r.mistake=!(near&&braking&&velocity<=96);r.waiting=true;jumpTime=spinStart=-1;r.stopAt=r.mistake?spec.at-4:Math.min(distance,spec.at-1);distance=r.stopAt;velocity=0;
     if(r.mistake)tell(i===0?'En rojo, detente antes de la línea':'Detente en la zona del retén',i===0?'Espera la luz verde.':'Espera la señal del agente.','error',2.3);
    }
  }else if(i===1&&before<spec.at&&distance>=spec.at){r.done=true;if(velocity<=98){award(120);tell('Reductor superado','Velocidad controlada · +120 puntos.')}else{velocity=57;slow=1.6;r.mistake=true;tell('Reduce antes del reductor','Frena con tiempo para mantener el control.','error')}}
@@ -244,6 +251,23 @@ function chirp(note){if(!audio||!sound)return;const oscillator=audio.createOscil
 function stored(key, fallback=''){try{return localStorage.getItem('rumbo-'+key)||fallback}catch{return fallback}}
 function save(key,value){try{localStorage.setItem('rumbo-'+key,String(value))}catch{}}
 let best=Number(stored('record','0'));if(!Number.isSafeInteger(best)||best<0)best=0;
+const levels=[{name:'Tortuga',rate:1,time:70},{name:'Liebre',rate:1.28,time:56},{name:'Flash',rate:1.60,time:46}];
+let level=levels.find(l=>l.name===stored('nivel'))||levels[0];
+function selectLevel(next){if(mode!=='ready')return;level=next;save('nivel',next.name);Array.from($('levels').children).forEach((b,i)=>b.setAttribute('aria-pressed',levels[i]===next));$('duration').textContent='≈ '+next.time+' s'}
+for(const l of levels){const b=document.createElement('button');b.type='button';b.textContent=l.name;b.onclick=()=>selectLevel(l);$('levels').append(b)}
+selectLevel(level);
+const jumpDuration=1.12;
+let jumpTime=-1,spinStart=-1,pendingTap=null,tapTimer=null,gesture=null;
+function clearTaps(){if(tapTimer!==null)clearTimeout(tapTimer);tapTimer=null;pendingTap=null}
+function launch(){if(mode!=='run'||velocity<12||eventRuns.some(e=>e.waiting)||jumpTime>=0)return false;jumpTime=0;spinStart=-1;chirp(410);return true}
+function trick(){if(jumpTime>=0&&jumpTime<jumpDuration*.55&&spinStart<0){spinStart=jumpTime;chirp(580)}}
+function airHeight(){if(jumpTime<0)return 0;const t=jumpTime/jumpDuration;return 1.72*4*t*(1-t)}
+function tap(x,y,side,now){
+ const repeat=pendingTap&&now-pendingTap.time<=265&&Math.hypot(x-pendingTap.x,y-pendingTap.y)<=45;
+ if(repeat){const count=pendingTap.count+1;clearTaps();if(count===2){if(launch())pendingTap={count,x,y,time:now}}else trick();return}
+ if(pendingTap?.count===1&&pendingTap.side)move(pendingTap.side);clearTaps();
+ pendingTap={count:1,x,y,time:now,side};tapTimer=setTimeout(()=>{if(mode==='run'&&pendingTap?.count===1&&pendingTap.side)move(pendingTap.side);clearTaps()},265)
+}
 function drawRecord(){const label='Mejor puntuación · '+best.toLocaleString('es-DO');$('record').textContent=label;$('resultRecord').textContent=label}
 sound=stored('sonido')==='1';
 function soundUI(){const b=$('sound');b.textContent=sound?'♫  Silenciar':'♫  Activar sonido';b.setAttribute('aria-pressed',sound)}
@@ -280,7 +304,7 @@ if(!sensorAPI){$('tilt').disabled=true;tiltStatus('Inclinación no disponible','
 else if(stored('inclinacion')==='1'){listenTilt()}
 else tiltStatus('Activar inclinación','Opcional. Los controles táctiles siempre están disponibles.');
 function state(next){
- mode=next;braking=false;baseline=null;armed=true;const garage=next==='ready';document.body.classList.toggle('racing',!garage);
+ clearTaps();gesture=null;mode=next;braking=false;baseline=null;armed=true;const garage=next==='ready';document.body.classList.toggle('racing',!garage);
  document.querySelectorAll('.hud,.drive,#tag').forEach(el=>el.hidden=garage);
  $('overlay').hidden=garage||next==='run';$('play').textContent=next==='pause'?'Continuar':'Volver a jugar';
  $('message').textContent={pause:'Ruta en pausa',won:'¡Llegaste a la escuela!',lost:'Se agotaron tus oportunidades'}[next]||'';
@@ -292,41 +316,42 @@ function state(next){
  $('finalScore').textContent=score.toLocaleString('es-DO');$('finalObstacles').textContent=passed+' de '+rows.length+' obstáculos superados';
  $('finalSafety').textContent=decisions+' de 5 decisiones de seguridad acertadas';
  $('finalBonus').textContent='Seguridad +'+bonus+(next==='won'?' · Llegada +500 · Vidas +'+lives*75:'');}
- if(next!=='run')$('notice').hidden=true;
+ if(next!=='run'){$('notice').hidden=true;$('trickLabel').hidden=true}
  audioSync();
 }
-function start(){if(!helmetReady)return;wakeAudio();resetSafety();distance=0;lane=position=0;velocity=100;clock=slow=score=passed=0;score=bonus;lives=3;seen.clear();state('run');chirp(450);render()}
+function start(){if(!helmetReady)return;wakeAudio();resetSafety();jumpTime=spinStart=-1;distance=0;lane=position=0;velocity=100;clock=slow=score=passed=0;score=bonus;lives=3;seen.clear();state('run');chirp(450);render()}
 function pauseGame(){if(mode==='run')state('pause');else if(mode==='pause')state('run')}
 $('play').onclick=()=>mode==='pause'?state('run'):start();$('pause').onclick=pauseGame;$('restart').onclick=start;
 function move(n){if(mode==='run')lane=Math.max(-1,Math.min(1,lane+n))}
-const track=$('scene');let gesture;
+const track=$('scene');
 track.onpointerdown=e=>{if(mode!=='run'||gesture)return;gesture={x:e.clientX,y:e.clientY,id:e.pointerId};track.setPointerCapture(e.pointerId)};
-track.onpointerup=e=>{if(!gesture||e.pointerId!==gesture.id)return;let dx=e.clientX-gesture.x,dy=e.clientY-gesture.y,b=track.getBoundingClientRect(),f=(e.clientX-b.left)/b.width;gesture=null;if(Math.abs(dy)>18&&Math.abs(dy)>Math.abs(dx))return;if(Math.abs(dx)>18)move(Math.sign(dx));else if(f<.4||f>.6)move(f<.5?-1:1)};
+track.onpointerup=e=>{if(!gesture||e.pointerId!==gesture.id)return;let dx=e.clientX-gesture.x,dy=e.clientY-gesture.y,b=track.getBoundingClientRect(),f=(e.clientX-b.left)/b.width;gesture=null;if(Math.abs(dy)>18&&Math.abs(dy)>Math.abs(dx))return;if(Math.abs(dx)>18){clearTaps();move(Math.sign(dx))}else tap(e.clientX,e.clientY,f<.4?-1:f>.6?1:0,e.timeStamp)};
 track.onpointercancel=()=>gesture=null;
 for(const name of ['gesturestart','gesturechange','touchmove'])document.addEventListener(name,e=>{if(mode!=='ready'&&e.cancelable)e.preventDefault()},{passive:false});
 const brake=$('brake');brake.onpointerdown=e=>{e.preventDefault();if(mode==='run'){braking=true;brake.setPointerCapture(e.pointerId)}};brake.onlostpointercapture=brake.onpointercancel=brake.onpointerup=()=>braking=false;
-window.addEventListener('keydown',e=>{if(mode==='ready')return;if(e.code==='Space'&&document.activeElement?.tagName==='BUTTON'&&mode!=='run')return;if(['ArrowLeft','ArrowRight','Space','Escape','KeyP'].includes(e.code)){e.preventDefault();if(e.code==='Space'){if(mode==='run')braking=true;return}if(e.repeat)return;if(e.code==='ArrowLeft')move(-1);else if(e.code==='ArrowRight')move(1);else pauseGame()}});
+window.addEventListener('keydown',e=>{if(mode==='ready')return;if(e.code==='Space'&&document.activeElement?.tagName==='BUTTON'&&mode!=='run')return;if(['ArrowLeft','ArrowRight','ArrowUp','KeyX','Space','Escape','KeyP'].includes(e.code)){e.preventDefault();if(e.code==='Space'){if(mode==='run')braking=true;return}if(e.repeat)return;if(e.code==='ArrowUp')launch();else if(e.code==='KeyX'){if(jumpTime<0)launch();trick()}else if(e.code==='ArrowLeft')move(-1);else if(e.code==='ArrowRight')move(1);else pauseGame()}});
 window.addEventListener('keyup',e=>{if(e.code==='Space')braking=false});function suspend(){gesture=null;if(mode==='run')state('pause')}document.addEventListener('visibilitychange',()=>{if(document.hidden)suspend()});window.addEventListener('blur',suspend);
 function crossing(o,z){return o.type!==2?o.lane:o.lane+Math.max(0,Math.min(1,(z-32)/41))*(o.lane===-1?-2-o.lane:2-o.lane)}
 function step(dt){
  if(mode!=='run')return;
- clock+=dt;slow=Math.max(0,slow-dt);const target=slow>0?78:161+17*Math.sin(clock*.48)+3*Math.sin(clock);
+ clock+=dt;if(jumpTime>=0){jumpTime+=dt;if(jumpTime>=jumpDuration)jumpTime=spinStart=-1}slow=Math.max(0,slow-dt);const target=slow>0?78:161+17*Math.sin(clock*.48)+3*Math.sin(clock);
  if(braking)velocity=Math.max(0,velocity-dt*rides[selectedVehicle].b*29);else velocity+=(target-velocity)*(1-Math.exp(-dt*rides[selectedVehicle].a*1.45));position+=(lane-position)*(1-Math.exp(-dt*rides[selectedVehicle].g));
- const before=distance;distance=Math.min(LENGTH,distance+velocity*.15*dt);
+ const before=distance;distance=Math.min(LENGTH,distance+velocity*.15*level.rate*dt);
  updateEvents(dt,before);
  rows.forEach((o,i)=>{if(seen.has(i)||o.at-distance>HIT||o.at-before<HIT)return;seen.add(i);
- if(Math.abs(position-o.lane)<.57){lives--;velocity=62;slow=1.4;chirp(95);}else passed++});
+ if(Math.abs(position-o.lane)<.57&&!(o.type<2&&airHeight()>(o.type===0?.75:.20))){lives--;velocity=62;slow=1.4;chirp(95);}else passed++});
  score=Math.max(0,Math.floor(distance*2)+passed*25+bonus-(3-lives)*100+(distance>=LENGTH?500+lives*75:0));
  if(lives<=0){state('lost');return}
  if(distance>=LENGTH&&mode==='run'){state('won');chirp(700)}audioSync()
 }
 function render(){if(mode==='ready'){showroom();return}
+ $('trickLabel').hidden=mode!=='run'||spinStart<0;
  const alert=rows.some(o=>o.type===2&&o.at-distance<120&&o.at-distance>17);
  trackView(distance,position,lane,clock,mode==='run'?velocity:0,rows,crossing,slow>.4);
  const prompt=mode==='run'?promptForRoute():null;
  $('notice').hidden=!prompt;$('tag').hidden=!!prompt||mode!=='run';
  if(prompt){$('notice').setAttribute('data-kind',prompt.kind);$('noticeIcon').textContent=prompt.icon||(prompt.kind==='error'?'!':'✓');let title=$('noticeTitle'),body=$('noticeBody');if(title.textContent!==prompt.title)title.textContent=prompt.title;if(body.textContent!==prompt.body)body.textContent=prompt.body}
- $('score').textContent=String(score).padStart(5,'0');$('lives').textContent='♥'.repeat(lives)+'♡'.repeat(3-lives);$('speed').textContent=String(mode==='run'||mode==='pause'?Math.round(velocity):0).padStart(3,'0');$('progress').value=distance/LENGTH;[...bars.children].forEach((el,i)=>el.classList.toggle('on',i<Number($('speed').textContent)/9));$('tag').textContent=slow>.5?'¡CUIDADO! · CHOQUE':alert?'⚠  CRUCE PEATONAL':distance<50?'◆  SALIDA · CASA':distance>LENGTH-140?'⚑  ESCUELA DEL CACAO':'◆  RUTA 01 · '+Math.floor(distance/LENGTH*100)+' %';$('tag').style.color=alert?'#ffcf67':'';
+ $('score').textContent=String(score).padStart(5,'0');$('lives').textContent='♥'.repeat(lives)+'♡'.repeat(3-lives);$('speed').textContent=String(mode==='run'||mode==='pause'?Math.round(velocity):0).padStart(3,'0');$('progress').value=distance/LENGTH;[...bars.children].forEach((el,i)=>el.classList.toggle('on',i<Number($('speed').textContent)/9));$('tag').textContent=slow>.5?'¡CUIDADO! · CHOQUE':alert?'⚠  CRUCE PEATONAL':distance<50?'◆  SALIDA · CASA':distance>LENGTH-140?'⚑  ESCUELA DEL CACAO':level.name.toUpperCase()+' · '+Math.floor(distance/LENGTH*100)+' %';$('tag').style.color=alert?'#ffcf67':'';
 }
 function frame(now){let elapsed=last?Math.min((now-last)/1000,.22):0;last=now;if(mode==='run'){while(elapsed>0.00001){let dt=Math.min(elapsed,1/45);step(dt);elapsed-=dt}render()}requestAnimationFrame(frame)}
 const preferenceKey='rumbo-equipo-v1';
