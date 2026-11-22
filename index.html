@@ -12,13 +12,15 @@ body.racing{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none;touc
 #trickLabel{pointer-events:none;position:absolute;right:5%;top:29%;transform:rotate(-6deg);background:#ffd367;color:#233e38;border-radius:6px;padding:5px 9px;font:italic 800 15px system-ui;box-shadow:0 3px 0 #92671c}
 
 .racing .safety{display:none}#helmetLink{display:block;color:#195846;font-size:13px;margin:0 0 8px}#helmetLink[hidden]{display:none}#buckle{min-height:44px}
+
+.levels>div{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr))}#levelChoice{margin:0;color:#31564d;font-size:14px}#nextLevel[hidden],#levelChoice[hidden]{display:none}
 </style></head><body>
 <header><div class="brand"><i>R</i> RUMBO <span>ARCADE</span></div><button id="sound" aria-pressed="false">♫ &nbsp; Sonido <b>OFF</b></button></header>
 <main><div id="layout"><section class="stage" id="stage" aria-label="Vista previa del estudiante y su vehículo"><canvas id="scene" aria-label="Escenario tridimensional"></canvas>
 <div class="poster"><small><i class="flag"></i> SAN FRANCISCO DE MACORÍS</small><h1>Rumbo a<br>la escuela<span>.</span></h1></div>
 <div class="nameplate"><small>TU EQUIPO</small><strong id="combo"></strong></div>
 <div class="hud" hidden><div><small>PUNTOS</small><output id="score">00000</output></div><div><small>VIDAS</small><output id="lives">♥♥♥</output></div><div class="actions"><button id="restart" aria-label="Reiniciar">↻</button><button id="pause" aria-label="Pausar">Ⅱ</button></div></div>
-<div id="trickLabel" hidden>360° · ¡Pirueta!</div><div id="tag" hidden></div><aside id="notice" role="status" hidden><span id="noticeIcon" aria-hidden="true"></span><div><strong id="noticeTitle"></strong><span id="noticeBody"></span></div></aside><div id="overlay" hidden><div><h2 id="message" role="status"></h2><div id="results" hidden><strong id="finalScore"></strong><small>PUNTOS TOTALES</small><p id="finalObstacles"></p><p id="finalSafety"></p><p id="finalBonus"></p><p id="resultRecord"></p></div><button class="primary" id="play"></button><button class="secondary" id="back">Volver al garaje</button></div></div>
+<div id="trickLabel" hidden>360° · ¡Pirueta!</div><div id="tag" hidden></div><aside id="notice" role="status" hidden><span id="noticeIcon" aria-hidden="true"></span><div><strong id="noticeTitle"></strong><span id="noticeBody"></span></div></aside><div id="overlay" hidden><div><h2 id="message" role="status"></h2><div id="results" hidden><strong id="finalScore"></strong><small>PUNTOS TOTALES</small><p id="finalObstacles"></p><p id="finalSafety"></p><p id="finalBonus"></p><p id="resultRecord"></p></div><p id="levelChoice" hidden></p><button class="primary" id="nextLevel" hidden></button><button class="secondary" id="play"></button><button class="secondary" id="back">Volver al garaje</button></div></div>
 <div class="drive" hidden><div><small>Velocidad arcade</small><strong id="speed">000</strong><div id="bars"></div></div><button id="brake">▥ &nbsp; FRENO</button><div class="progress"><span>Casa</span><progress id="progress" max="1" value="0"></progress><span>Escuela</span></div></div></section>
 <section id="garage"><div class="sectiontop"><small>ANTES DE SALIR</small><h2>Tu garaje</h2></div><h3>Estudiante <span id="studentName"></span></h3><div class="choices" id="people" role="group" aria-label="Seleccionar estudiante"></div><p id="bio"></p><h3>Vehículo <span id="vehicleName"></span></h3><div class="choices vehicles" id="vehicles" role="group" aria-label="Seleccionar vehículo"></div><p id="handling"></p><fieldset class="levels"><legend>Nivel de la ruta</legend><div id="levels" role="group" aria-label="Velocidad de la ruta"></div></fieldset><p class="tricks">Bordes para esquivar · Centro: 2 toques para saltar, 3 para girar</p><a id="helmetLink" href="#buckle">Abrocha el casco al final de esta página ↓</a><button class="primary" id="go" disabled>Iniciar ruta <span>▶</span></button><div class="trip"><span>Casa → Escuela</span><span id="duration">≈ 70 s</span><span>3 vidas</span></div><p id="record"></p><div class="tiltPref"><button type="button" id="tilt" aria-pressed="false">Activar inclinación</button><span id="tiltInfo" role="status"></span></div></section>
 </div><details><summary>Cómo jugar</summary><p>En móvil, toca los bordes o desliza para cambiar de carril. Da dos toques rápidos en el centro para saltar una piedra o un hoyo. Con un tercer toque giras en el aire. En computadora, usa ← y → para cambiar de carril, ↑ para saltar y X para la pirueta. Mantén el freno o la barra espaciadora hasta detenerte. Suelta para acelerar. Pulsa P para pausar.</p></details><section class="safety" id="seguridad-vial" aria-label="Seguridad vial"><div><small>SEGURIDAD VIAL</small><p id="helmetStatus" role="status">Coloca el casco y abrocha la correa antes de salir.</p></div><button id="buckle">Colocar y abrochar</button></section></main><script>/*The MIT License
@@ -64,7 +66,7 @@ const students=[
 const rides=[
  ['Pasola','Pasola',0xf1a031,1.65,4.2,13,'Conducción equilibrada y postura sentada.'],
  ['Motor','Motor',0xd85c46,2.1,3.8,11.7,'Motor de calle con suspensión trasera, escape y aceleración rápida.'],
- ['Bicicleta','Bici',0x1c9b9a,1.48,4.6,15,'Ágil entre carriles, con pedaleo continuo.'],
+ ['Bicicleta','Bici',0x1c9b9a,1.48,4.6,15,'Bicicleta urbana de cuadro turquesa, ruedas de radios y transmisión por cadena.'],
  ['Scooter eléctrico','Scooter',0x528bc3,1.8,4.8,13.6,'Frenado rápido y conducción de pie.'],
  ['Patineta clásica','Patineta',0xa165ab,1.44,3.6,14.5,'Giro ágil e impulso con el pie.']
 ].map(([name,short,c,a,b,g,info])=>({name,short,c,a,b,g,info}));
@@ -137,7 +139,70 @@ for(let k of [-1,1]){orb(body,s.pack,k*.178,.4,.118,.034,.193,.033).rotation.z=-
 orb(body,s.pack,0,.31,-.163,.217,.26,.091);orb(body,s.pack,0,.223,-.222,.164,.116,.047);box(body,cream,0,.251,-.268,.172,.019,.011);if(s.style===4)rod(body,cream,[-.18,.51,.118],[.15,.13,.14],.025);
 let h=group();head(h,s,helmet);let neck=bake(h);neck.scale.setScalar(.72);neck.position.y=.805;upper.add(bake(body),neck);let legs=[];for(let k of [-1,1]){let leg=group(),q=group();leg.position.set(k*.12,standing?seat+.68:seat+.019,standing?0:-.11);let knee=standing?[k*.025,-.3,.034]:[k*.042,-.109,.296],foot=standing?[k*.035,-.61,v===4?k*.22:.055]:[k*.06,-.45,v===0?.28:.11];rod(q,s.pants,[0,0,0],knee,.095);orb(q,s.pants,...knee,.09,.088,.09);rod(q,s.pants,knee,foot,.073);orb(q,cream,foot[0],foot[1],foot[2]+.04,.085,.061,.143);orb(q,ink,foot[0],foot[1]-.045,foot[2]+.037,.083,.018,.134);leg.add(bake(q));p.add(leg);legs.push(leg)}p.userData={upper,legs,neck};return p}
 function wheel(p,z,r,x=0,width=.11){for(let [col,ratio,w] of [[ink,1,width],[metal,.71,width+.008],[0x52616a,.51,width+.013],[cream,.17,width+.018]])cyl(p,col,x,r,z,r*ratio,w).rotation.z=Math.PI/2}
-function vehicle(i){let p=group(),c=rides[i].c,rolling=[],fork=group();
+function urbanBicycle(){
+ const bike=group(),frame=group(),fork=group();
+ const teal=0x008b86,alloy=0xb1c7c9,tire=0x202727,trim=0xf5d488,r=.345,rear=-.63,front=.64;
+ function hoop(parent,x,y,z,radius,width,color){
+  const ring=mesh(parent,new T.TorusGeometry(radius,width,8,48),color,x,y,z,1,1,1);
+  ring.rotation.y=Math.PI/2;
+ }
+ function axle(parent,x,y,z,rad,length,color){
+  cyl(parent,color,x,y,z,rad,length).rotation.z=Math.PI/2;
+ }
+ for(const z of [rear,front]){
+  const parts=group();
+  hoop(parts,0,0,0,r-.020,.020,tire);
+  hoop(parts,0,0,0,r-.046,.012,alloy);
+  for(const k of [-1,1]){
+   hoop(parts,k*.015,0,0,r-.031,.0036,0xd2b482);
+   for(let j=0;j<16;j++){
+    const a=(j+(k>0?.5:0))*Math.PI/8,b=a+k*.39;
+    rod(parts,0x849c9f,[k*.032,.03*Math.cos(b),.03*Math.sin(b)],[k*.006,(r-.052)*Math.cos(a),(r-.052)*Math.sin(a)],.0034)
+   }
+  }
+  axle(parts,0,0,0,.030,.09,alloy);hoop(parts,-.047,0,0,.078,.006,alloy);
+  const wheel=bake(parts);wheel.name=z===front?'frontWheel':'rearWheel';wheel.position.set(0,r,z);bike.add(wheel)
+ }
+ const bottom=[0,.325,-.04],seat=[0,.828,-.235],head=[0,.89,.415],headBase=[0,.754,.457];
+ rod(frame,teal,bottom,seat,.031);rod(frame,teal,seat,head,.026);
+ rod(frame,teal,bottom,headBase,.041);rod(frame,teal,head,headBase,.043);
+ for(const k of [-1,1]){
+  rod(frame,teal,[k*.066,r,rear],bottom,.018);
+  rod(frame,teal,[k*.066,r,rear],seat,.015);
+  rod(fork,teal,[k*.061,r,front],[k*.066,.64,.502],.022);
+  rod(fork,alloy,[k*.066,.64,.502],headBase,.018);
+  orb(frame,ink,k*.065,r,rear,.030,.032,.028)
+ }
+ for(let n=0;n<3;n++){let t=.44+n*.077;rod(frame,n===1?cream:trim,[0,.325+.429*t,-.04+.497*t],[0,.325+.429*(t+.035),-.04+.497*(t+.035)],.042)}
+ rod(frame,alloy,seat,[0,.924,-.261],.018);orb(frame,ink,0,.932,-.24,.099,.031,.151);
+ rod(fork,alloy,head,[0,1.025,.373],.021);rod(fork,ink,[0,1.025,.373],[0,1.032,.462],.024);
+ for(const k of [-1,1]){
+  rod(fork,alloy,[0,1.032,.462],[k*.205,1.065,.437],.014);
+  rod(fork,ink,[k*.205,1.065,.437],[k*.322,1.069,.408],.021);
+  rod(fork,alloy,[k*.215,1.054,.432],[k*.284,1.025,.449],.009);
+  const cable=new T.QuadraticBezierCurve3(new T.Vector3(k*.215,1.05,.445),new T.Vector3(k*.23,.77,.63),new T.Vector3(k*.048,.61,.512));
+  mesh(fork,new T.TubeGeometry(cable,12,.004,5,false),ink,0,0,0,1,1,1)
+ }
+ const driveX=.087;
+ hoop(frame,driveX,.325,-.04,.091,.008,alloy);
+ axle(frame,0,.325,-.04,.033,.19,ink);
+ for(let j=0;j<5;j++){
+  let a=j*Math.PI*2/5;rod(frame,alloy,[driveX,.325,-.04],[driveX,.325+Math.cos(a)*.087,-.04+Math.sin(a)*.087],.008)
+ }
+ for(let j=0;j<4;j++)hoop(frame,.058+j*.006,r,rear,.063-j*.008,.005,alloy);
+ for(const k of [-1,1])rod(frame,ink,[driveX,.325+k*.091,-.04],[.08,r+k*.057,rear],.006);
+ box(frame,0xc94838,0,.852,-.293,.058,.026,.015);
+ const body=bake(frame);body.name='chassis';bike.add(body);
+ const steering=bake(fork);steering.geometry.translate(0,-.79,-.4);steering.position.set(0,.79,.4);steering.name='fork';bike.add(steering);
+ const crank=group();crank.name='crank';crank.position.set(0,.325,-.04);
+ for(const k of [-1,1]){
+  rod(crank,alloy,[k*.098,0,0],[k*.122,0,k*.152],.014);
+  const pedal=box(crank,ink,k*.156,0,k*.152,.087,.024,.071);pedal.name='pedal'
+ }
+ bike.add(crank);return bike
+}
+
+function vehicle(i){if(i===2)return urbanBicycle();let p=group(),c=rides[i].c,rolling=[],fork=group();
  function rollingWheel(z,r,width,x=0){
   const raw=group();
   if(i<2)motoWheel(raw,0,r,width);else wheel(raw,0,r,0,width);
@@ -303,7 +368,7 @@ function poseBone(mesh,a,b){
 function rideModel(i,v){
  const key=i+':'+v;if(rideModels.has(key))return rideModels.get(key);
  const person=students[i],root=group(),torso=group(),neck=group();
- const standing=v>=3,base=[.77,.851,.91,.89,.89][v],size=[.97,.93,1.06,.97,1.03][i];
+ const standing=v>=3,base=[.77,.851,.946,.89,.89][v],size=[.97,.93,1.06,.97,1.03][i];
  torso.position.set(0,base,v<3?-.21:0);root.add(torso);torso.add(neck);
  const shirt=fabricShell(torso,[[0,.155,.77],[.06,.187,.78],[.22,.203,.88,-.03],[.38,.233,.88,-.032],[.46,.228,.74],[.505,.15,.68],[.535,.094,.7]],'jersey'+i,person.shirt);
  neck.position.y=.51;
@@ -328,12 +393,13 @@ function poseRider(p,time,vel,load,headTurn,bodyTurn,steer){
  neck.rotation.set(-torso.rotation.x*.64,headTurn,0);torso.updateMatrix();
  for(const l of limbs){
   const {k,shoulder,hip,grip,foot}=l;shoulder.set(k*.20,.438,.01).applyMatrix4(torso.matrix);hip.set(k*.112,.025,0).applyMatrix4(torso.matrix);
-  grip.set(k*.287+steer*.023,[1.01,1.10,1.10,1.17,1.15][v]-load*.02,.40-steer*k*.045);
+  grip.set(k*.287+steer*.023,[1.01,1.10,1.066,1.17,1.15][v]-load*.02,.40-steer*k*.045);
   if(v===4)grip.set(k*.43,1.12+.075*k*steer,.03+k*.17);
   l.joint.position.copy(shoulder).lerp(grip,.49);l.joint.position.x+=k*.063;l.joint.position.y-=.09;
   poseBone(l.arm,shoulder,l.joint.position);poseBone(l.fore,l.joint.position,grip);l.hand.position.copy(grip);
-  const pedal=v===2?Math.min(1,vel/45):0,phase=time*8+(k<0?Math.PI:0);
-  foot.set(k*(v<3?.18:.093),[.33,.36,.32,.265,.258][v]+pedal*.12*Math.sin(phase),[.16,-.08,.03,k*.22,k*.32][v]+pedal*.14*Math.cos(phase));
+  const phase=distance*.30;
+  foot.set(k*(v<3?.18:.093),[.33,.36,.32,.265,.258][v],[.16,-.08,.03,k*.22,k*.32][v]);
+  if(v===2){foot.set(k*.156,.375+k*.152*Math.sin(phase),-.04+k*.152*Math.cos(phase))}
   if(v===4&&k<0)foot.z-=Math.min(1,vel/45)*.17*Math.max(0,Math.sin(time*3));
   l.knee.position.copy(hip).lerp(foot,.50);l.knee.position.z+=v<3?.24:.063;l.knee.position.x+=k*.025;
   poseBone(l.thigh,hip,l.knee.position);poseBone(l.shin,l.knee.position,foot);
@@ -352,20 +418,20 @@ function loadOutfit(i){
 }
 function equip(i,v,helmet=false){
  loadOutfit(i);
- selectedStudent=i;selectedVehicle=v;parked.clear();racingRig.clear();previewStudent=studentModel(i,-1,helmet);previewStudent.position.set(-.49,.151,.10);previewStudent.rotation.y=.23;parked.add(previewStudent);previewVehicle=vehicles3d[v].clone();previewVehicle.position.set(.51,.15,.026);previewVehicle.rotation.y=-.77;parked.add(previewVehicle);for(let [x,w,d] of [[-.49,.95,.73],[.54,1.4,1.73]]){let s=shadow(w,d);s.position.set(x,.154,.05);parked.add(s)}
+ selectedStudent=i;selectedVehicle=v;parked.clear();racingRig.clear();previewStudent=studentModel(i,-1,helmet);previewStudent.position.set(-.49,.151,.10);previewStudent.rotation.y=.23;parked.add(previewStudent);previewVehicle=vehicles3d[v].clone();previewVehicle.position.set(.51,.15,.026);previewVehicle.rotation.y=v===2?-1.10:-.77;parked.add(previewVehicle);for(let [x,w,d] of [[-.49,.95,.73],[.54,1.4,1.73]]){let s=shadow(w,d);s.position.set(x,.154,.05);parked.add(s)}
 dynamics=rideModel(i,v);activeRider=dynamics.root;activeBike=vehicles3d[v].clone();racingRig.add(activeRider,activeBike);
  frontFork=activeBike.getObjectByName('fork');tailLamp=activeBike.getObjectByName('brakelight');wheels=activeBike.children.filter(w=>w.name.endsWith('Wheel'));
  racingRig.rotation.y=Math.PI;racingRig.userData={student:i,vehicle:v};parked.userData={student:i,vehicle:v}}
 function icon(i,isVehicle){const asset=photoAsset((isVehicle?'bike':'face')+i);if(asset)return asset[2];let s=new T.Scene();s.background=new T.Color(isVehicle?0xf0e9d8:0xe3e9d8);lit(s);let model=isVehicle?vehicles3d[i].clone():studentModel(i,-1).clone();s.add(model);let c=new T.PerspectiveCamera(30,1,.03,12);if(isVehicle){c.position.set(2.45,1.35,1.70);c.lookAt(0,.52,0);c.fov=32}else{c.position.set(.26,1.72,1.38);c.lookAt(0,1.54,0);c.fov=36}c.updateProjectionMatrix();renderer.setSize(100,100,false);renderer.render(s,c);return renderer.domElement.toDataURL()}
 function resize(camera){let w=$('stage').clientWidth,h=$('stage').clientHeight;if(w<=0||h<=0)return;let cv=renderer.domElement,r=renderer.getPixelRatio();if(cv.width!==Math.floor(w*r)||cv.height!==Math.floor(h*r))renderer.setSize(w,h,false);if(Math.abs(camera.aspect-w/h)>.0001){camera.aspect=w/h;camera.updateProjectionMatrix()}}
 function showroom(){studioPhotos();resize(cam);let narrow=cam.aspect<1.08;cam.fov=narrow?34:33;cam.position.set(1.78,1.82,narrow?4.96:4.52);cam.lookAt(-.02,.98,0);cam.updateProjectionMatrix();renderer.render(studio,cam)}
-const obstaclePool=[];function obstacleModels(){let rock=group();let rockBody=mesh(rock,new T.DodecahedronGeometry(1,0),0x947d73,-.04,.33,0,.67,.45,.48);rockBody.rotation.set(.29,.65,-.19);mesh(rock,new T.DodecahedronGeometry(1,0),0xb5997c,.44,.14,.19,.25,.19,.23);let hole=group();orb(hole,0xbda080,0,.022,0,.76,.030,.55);orb(hole,0x3f4650,0,.049,0,.65,.023,.43);orb(hole,0x77898a,-.07,.067,.05,.35,.007,.10);let ped=person(students[4],-1);ped.rotation.y=Math.PI/2;return [bake(rock),bake(hole),ped]}
+const obstaclePool=[],roadModels=new Map();let activeObstacles=[];function obstacleModels(){let rock=group();let rockBody=mesh(rock,new T.DodecahedronGeometry(1,0),0x947d73,-.04,.33,0,.67,.45,.48);rockBody.rotation.set(.29,.65,-.19);mesh(rock,new T.DodecahedronGeometry(1,0),0xb5997c,.44,.14,.19,.25,.19,.23);let hole=group();orb(hole,0xbda080,0,.022,0,.76,.030,.55);orb(hole,0x3f4650,0,.049,0,.65,.023,.43);orb(hole,0x77898a,-.07,.067,.05,.35,.007,.10);let ped=person(students[4],-1);ped.rotation.y=Math.PI/2;return [bake(rock),bake(hole),ped]}
 const obstacles3d=obstacleModels();
 function initRoad(rows){for(const o of rows){let m=o.type===2?person(students[4],-1):obstacles3d[o.type].clone();
  if(o.type===2){const upper=m.userData.upper;m.userData.walkLegs=m.userData.legs;m.userData.chest=upper;m.userData.headPivot=m.userData.neck;m.userData.alarmArms=upper.children.filter(c=>c.name==='arm')}
- road.add(m);obstaclePool.push(m)}}
+ road.add(m);obstaclePool.push(m);roadModels.set(o,m)}}
 function trackView(dist,position,lane,time,vel,rows,crossing,hit){resize(raceCam);let advance=dist*.45;for(let j=0;j<cells.length;j++)cells[j].position.z=10-((j*8-advance+12000)%120);
-gate.position.z=-(1480-dist)*.45;gate.visible=gate.position.z>-105;for(let i=0;i<rows.length;i++){let o=rows[i],z=o.at-dist,m=obstaclePool[i];m.visible=z>-2&&z<365;if(!m.visible)continue;m.position.set(crossing(o,z)*3.04,o.type===2?.025*Math.abs(Math.sin(time*7)):0,-(z-18)*.45);if(o.type===2){m.rotation.y=o.lane===-1?Math.PI/2:-Math.PI/2;const fear=o.fright?Math.min(1,Math.max(0,(time-o.fright.at)*7)):0;
+gate.position.z=-(1480-dist)*.45;gate.visible=gate.position.z>-105;for(let i=0;i<rows.length;i++){let o=rows[i],z=o.at-dist,m=activeObstacles[i];m.visible=z>-2&&z<365;if(!m.visible)continue;m.position.set(crossing(o,z)*3.04,o.type===2?.025*Math.abs(Math.sin(time*7)):0,-(z-18)*.45);if(o.type===2){m.rotation.y=o.lane===-1?Math.PI/2:-Math.PI/2;const fear=o.fright?Math.min(1,Math.max(0,(time-o.fright.at)*7)):0;
  if(fear){m.rotation.y=(o.lane===-1?-1:1)*(.4+fear*.84);m.position.x=pedestrianX(o,z)*3.04}
  m.userData.walkLegs.forEach((leg,k)=>leg.rotation.x=Math.sin(time*(fear?13:7)+k*Math.PI)*(.26+fear*.39));
  m.userData.chest.rotation.z=(o.lane===-1?1:-1)*fear*.21;m.userData.headPivot.rotation.y=(o.lane===-1?1:-1)*fear*.98;
@@ -386,7 +452,8 @@ roadShadow.scale.setScalar(1-lift*.19);racingRig.rotation.z=spinDirection*.32*Ma
  const steer=lane-position;poseRider(dynamics,time,vel,load,glance*side*1.48,glance*side*.28,steer);
  activeBike.getObjectByName('chassis').rotation.x=load*.04;activeBike.getObjectByName('chassis').position.y=-load*.019;
  if(frontFork){frontFork.rotation.y=steer*.18;frontFork.position.y=.79-load*.039}
- for(const w of wheels){w.rotation.x=-dist*.45/[.245,.287,.30,.135,.077][selectedVehicle];if(w.name==='frontWheel')w.rotation.y=steer*.16}
+ if(selectedVehicle===2){const crank=activeBike.getObjectByName("crank");crank.rotation.x=-dist*.30;for(const part of crank.children)if(part.name==="pedal")part.rotation.x=-crank.rotation.x}
+ for(const w of wheels){w.rotation.x=-dist*.45/[.245,.287,.345,.135,.077][selectedVehicle];if(w.name==='frontWheel')w.rotation.y=steer*.16}
  if(tailLamp)tailLamp.material.color.setHex(braking?0xff3621:0x892326);
  contactPatches.forEach((m,k)=>{m.position.set(racingRig.position.x,.034,(k?1:-1)*[.61,.73,.71,.5,.39][selectedVehicle]);m.visible=lift<.20});
  let chaseView=updateSafetyScene(dist,position,time);const focus=54+Math.min(1,vel/180)*5+chaseView*3;if(Math.abs(raceCam.fov-focus)>.12){raceCam.fov=focus;raceCam.updateProjectionMatrix()}
@@ -430,7 +497,21 @@ for(let i=0;i<24;i++){
  if(i%4===3 && type!==2)rows.push({at,lane:lane===1?0:1,type:(type+1)%2});
 }
 rows.push({at:1132+HIT,lane:0,type:0},{at:1198+HIT,lane:-1,type:1},{at:1262+HIT,lane:1,type:0});
-rows.sort((a,b)=>a.at-b.at);
+// Each tier keeps the learned route and adds new decisions on open stretches.
+const courses=rows.slice();
+const extraWaves=[
+ [[131,1,0],[382,0,1],[691,-1,0]],
+ [[102,1,1],[411,-1,1],[942,1,0]],
+ [[46,-1,0],[612,0,1],[1262,-1,1]],
+ [[329,0,0],[612,-1,0],[1335,1,1],[1422,-1,0]]
+];
+extraWaves.forEach((waves,i)=>waves.forEach(([distance,lane,type])=>courses.push({at:distance+HIT,lane,type,tier:i+1})));
+courses.sort((a,b)=>a.at-b.at);
+function setCourse(tier){
+ rows.splice(0,rows.length,...courses.filter(o=>(o.tier||0)<=tier));
+ obstaclePool.forEach(m=>m.visible=false);
+ activeObstacles=rows.map(o=>roadModels.get(o))
+}
 const eventSpecs=[{id:'light',at:246,title:'Semáforo',icon:'●'},{id:'bump',at:525,title:'Policía acostado',icon:'⌒'},{id:'check',at:807,title:'Retén policial',icon:'✋'},{id:'dogs',at:1040,title:'Perros en la vía',icon:'🐾'}];
 let eventRuns=[],bonus=0,decisions=0,feedback=null,helmetReady=false;
 try{helmetReady=localStorage.getItem('rumbo-casco-v1')==='1'}catch{}
@@ -514,11 +595,11 @@ function chirp(note){if(!audio||!sound||!master)return;const oscillator=audio.cr
 function stored(key, fallback=''){try{return localStorage.getItem('rumbo-'+key)||fallback}catch{return fallback}}
 function save(key,value){try{localStorage.setItem('rumbo-'+key,String(value))}catch{}}
 let best=Number(stored('record','0'));if(!Number.isSafeInteger(best)||best<0)best=0;
-const levels=[{name:'Tortuga',rate:1,time:70},{name:'Liebre',rate:1.28,time:56},{name:'Flash',rate:1.60,time:46}];
+const levels=[{name:'Tortuga',rate:1,time:70},{name:'Liebre',rate:1.28,time:56},{name:'Flash',rate:1.60,time:46},{name:'Ciclón',rate:1.78,time:42},{name:'Relámpago',rate:1.95,time:39}];
 let level=levels.find(l=>l.name===stored('nivel'))||levels[0];
-function selectLevel(next){if(mode!=='ready')return;level=next;save('nivel',next.name);Array.from($('levels').children).forEach((b,i)=>b.setAttribute('aria-pressed',levels[i]===next));$('duration').textContent='≈ '+next.time+' s'}
+function selectLevel(next){if(mode!=='ready'&&mode!=='won')return;level=next;setCourse(levels.indexOf(next));save('nivel',next.name);Array.from($('levels').children).forEach((b,i)=>b.setAttribute('aria-pressed',levels[i]===next));$('duration').textContent='≈ '+next.time+' s'}
 for(const l of levels){const b=document.createElement('button');b.type='button';b.textContent=l.name;b.onclick=()=>selectLevel(l);$('levels').append(b)}
-selectLevel(level);
+initRoad(courses);selectLevel(level);
 const jumpDuration=1.12;
 let spinDirection=Math.random()<.5?-1:1;
 let landTime=0,jumpTime=-1,spinStart=-1,pendingTap=null,gesture=null;
@@ -591,6 +672,12 @@ function state(next){
  clearTaps();gesture=null;mode=next;braking=false;baseline=null;armed=true;const garage=next==='ready';document.body.classList.toggle('racing',!garage);
  document.querySelectorAll('.hud,.drive,#tag').forEach(el=>el.hidden=garage);
  $('overlay').hidden=garage||next==='run';$('play').textContent=next==='pause'?'Continuar':'Volver a jugar';
+ const ordinal=levels.indexOf(level),following=levels[ordinal+1],won=next==='won';
+ $('nextLevel').hidden=!won||!following;
+ if(won&&following)$('nextLevel').textContent='Siguiente nivel · '+following.name+' →';
+ $('play').textContent=next==='pause'?'Continuar':next==='lost'?'Reintentar · '+level.name:'Repetir · '+level.name;
+ $('levelChoice').hidden=!won;
+ if(won)$('levelChoice').textContent=following?'¿Repetir la partida o subir de nivel?':'¡Superaste la dificultad máxima!' ;
  $('message').textContent={pause:'Ruta en pausa',won:'¡Llegaste a la escuela!',lost:'Se agotaron tus oportunidades'}[next]||'';
  $('pause').disabled=next!=='run'&&next!=='pause';$('pause').textContent=next==='pause'?'▶':'Ⅱ';$('pause').setAttribute('aria-label',next==='pause'?'Continuar':'Pausar');
  $('stage').setAttribute('aria-label',(garage?'Vista previa de ':'En carrera: ')+students[selectedStudent].name+' · '+rides[selectedVehicle].name);
@@ -605,6 +692,7 @@ function state(next){
 }
 function start(){if(!helmetReady)return;wakeAudio();resetSafety();landTime=0;jumpTime=spinStart=-1;distance=0;lane=position=0;velocity=100;clock=slow=score=passed=0;score=bonus;lives=3;seen.clear();state('run');chirp(450);render()}
 function pauseGame(){if(mode==='run')state('pause');else if(mode==='pause')state('run')}
+$('nextLevel').onclick=()=>{const next=levels[levels.indexOf(level)+1];if(mode==='won'&&next){selectLevel(next);start()}};
 $('play').onclick=()=>mode==='pause'?state('run'):start();$('pause').onclick=pauseGame;$('restart').onclick=start;
 function move(n){if(mode==='run')lane=Math.max(-1,Math.min(1,lane+n))}
 const track=$('scene');
@@ -680,6 +768,6 @@ for(const [items,id,isVehicle] of [[students,'people',false],[rides,'vehicles',t
 let initial=[0,0];try{const saved=JSON.parse(localStorage.getItem(preferenceKey));if(Array.isArray(saved)&&saved.length===2&&saved.every(n=>Number.isInteger(n)&&n>=0&&n<5))initial=saved}catch{}
 function showHelmet(){ $('helmetLink').hidden=helmetReady;$('go').disabled=!helmetReady;$('buckle').hidden=helmetReady;$('helmetStatus').textContent=helmetReady?'Casco ajustado y correa abrochada':'Coloca el casco y abrocha la correa antes de salir.'}
 $('buckle').onclick=()=>{helmetReady=true;try{localStorage.setItem('rumbo-casco-v1','1')}catch{}showHelmet();choose(selectedStudent,selectedVehicle);$('go').focus()};
-showHelmet();$('go').onclick=start;$('back').onclick=()=>{state('ready');render();$('go').focus()};initRoad(rows);choose(...initial);state('ready');render();window.addEventListener('resize',render);requestAnimationFrame(frame);
+showHelmet();$('go').onclick=start;$('back').onclick=()=>{state('ready');render();$('go').focus()};choose(...initial);state('ready');render();window.addEventListener('resize',render);requestAnimationFrame(frame);
 
 })();</script></body></html>
