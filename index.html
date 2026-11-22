@@ -2,15 +2,19 @@
 
 @media(max-width:620px){.poster h1{font-size:clamp(23px,6.5vw,33px);max-width:34vw}.poster small{font-size:7px}.poster{left:3%}}
 .safety{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #a9c5ae;background:#edf4e5;border-radius:10px;padding:10px 12px;margin-bottom:10px}.safety small{color:#386e58}.safety p{font-size:13px;line-height:1.3;margin:3px 0 0}#buckle{background:#195846;color:#fffbed;border:0;border-radius:7px;padding:9px;font-size:12px;font-weight:750;flex-shrink:0}#go:disabled{opacity:.52;cursor:default}#notice{position:absolute;top:calc(2% + 60px);left:3%;right:3%;display:flex;gap:10px;align-items:center;background:#fff6da;color:#183834;border-radius:9px;border-left:5px solid #e9ab39;padding:8px 11px;pointer-events:none;box-shadow:0 2px 10px #16343725}#notice[data-kind=good]{background:#e7f8d9;border-color:#39885c}#notice[data-kind=error]{background:#fff0e3;border-color:#d25e36}#noticeIcon{font-size:22px;font-weight:900}#noticeTitle,#noticeBody{display:block}#noticeTitle{font-size:14px}#noticeBody{font-size:12px;line-height:1.35}#overlay{z-index:4}#results{border-block:1px solid #ced5be;padding:8px 0;color:#28534b}#finalScore,#results small{display:block}#finalScore{font-size:29px}#results p{font-size:13px;margin:4px}#tag{color:#173a35!important}#overlay h2{font-size:clamp(17px,4vw,24px)}#overlay>div{max-height:95%;overflow:auto}
+body{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+#record{text-align:center;font-size:13px;font-weight:700;margin-top:10px}.tiltPref{display:flex;align-items:center;gap:9px;margin-top:12px;border-top:1px solid #ced3c1;padding-top:9px}.tiltPref button{border:1px solid #99b39f;border-radius:8px;padding:7px 10px;min-height:44px;background:#f2f5e9;font-size:12px;font-weight:700}.tiltPref span{flex:1;font-size:12px;line-height:1.35}
+body.racing{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}.racing main,.racing .stage,.racing button{touch-action:none}.racing details{display:none}.drive,.hud{pointer-events:none}.drive button,.hud button{pointer-events:auto}#brake{min-width:88px;min-height:52px;font-size:15px}#brake:active{background:#397a67}.actions button{width:44px;height:44px}.racing #notice,.racing #tag{top:calc(2% + 69px)}
+@media(max-width:620px){.racing{display:flex;flex-direction:column;height:100%;height:100dvh}.racing header{width:100%;height:46px;flex:0 0 46px}.racing main{width:100%;max-width:560px;flex:1;min-height:0;margin:0 auto;padding:0 4px 3px}.racing #layout{height:100%;border-radius:12px}.racing .stage{width:100%;height:100%;min-height:0;aspect-ratio:auto;border-radius:12px}.drive{bottom:8px}.racing .hud{top:5px}.racing #notice,.racing #tag{top:72px}.racing #sound{min-height:40px}}
 </style></head><body>
 <header><div class="brand"><i>R</i> RUMBO <span>ARCADE</span></div><button id="sound" aria-pressed="false">♫ &nbsp; Sonido <b>OFF</b></button></header>
 <main><div id="layout"><section class="stage" id="stage" aria-label="Vista previa del estudiante y su vehículo"><canvas id="scene" aria-label="Escenario tridimensional"></canvas>
 <div class="poster"><small><i class="flag"></i> SAN FRANCISCO DE MACORÍS</small><h1>Rumbo a<br>la escuela<span>.</span></h1></div>
 <div class="nameplate"><small>TU EQUIPO</small><strong id="combo"></strong></div>
 <div class="hud" hidden><div><small>PUNTOS</small><output id="score">00000</output></div><div><small>VIDAS</small><output id="lives">♥♥♥</output></div><div class="actions"><button id="restart" aria-label="Reiniciar">↻</button><button id="pause" aria-label="Pausar">Ⅱ</button></div></div>
-<div id="tag" hidden></div><aside id="notice" role="status" hidden><span id="noticeIcon" aria-hidden="true"></span><div><strong id="noticeTitle"></strong><span id="noticeBody"></span></div></aside><div id="overlay" hidden><div><h2 id="message" role="status"></h2><div id="results" hidden><strong id="finalScore"></strong><small>PUNTOS TOTALES</small><p id="finalObstacles"></p><p id="finalSafety"></p><p id="finalBonus"></p></div><button class="primary" id="play"></button><button class="secondary" id="back">Volver al garaje</button></div></div>
+<div id="tag" hidden></div><aside id="notice" role="status" hidden><span id="noticeIcon" aria-hidden="true"></span><div><strong id="noticeTitle"></strong><span id="noticeBody"></span></div></aside><div id="overlay" hidden><div><h2 id="message" role="status"></h2><div id="results" hidden><strong id="finalScore"></strong><small>PUNTOS TOTALES</small><p id="finalObstacles"></p><p id="finalSafety"></p><p id="finalBonus"></p><p id="resultRecord"></p></div><button class="primary" id="play"></button><button class="secondary" id="back">Volver al garaje</button></div></div>
 <div class="drive" hidden><div><small>Velocidad arcade</small><strong id="speed">000</strong><div id="bars"></div></div><button id="brake">▥ &nbsp; FRENO</button><div class="progress"><span>Casa</span><progress id="progress" max="1" value="0"></progress><span>Escuela</span></div></div></section>
-<section id="garage"><div class="sectiontop"><small>ANTES DE SALIR</small><h2>Tu garaje</h2></div><h3>Estudiante <span id="studentName"></span></h3><div class="choices" id="people" role="group" aria-label="Seleccionar estudiante"></div><p id="bio"></p><h3>Vehículo <span id="vehicleName"></span></h3><div class="choices vehicles" id="vehicles" role="group" aria-label="Seleccionar vehículo"></div><p id="handling"></p><section class="safety"><div><small>SEGURIDAD VIAL</small><p id="helmetStatus" role="status">Coloca el casco y abrocha la correa antes de salir.</p></div><button id="buckle">Colocar y abrochar</button></section><button class="primary" id="go" disabled>Iniciar ruta <span>▶</span></button><div class="trip"><span>Casa → Escuela</span><span>≈ 80–90 s</span><span>3 vidas</span></div></section>
+<section id="garage"><div class="sectiontop"><small>ANTES DE SALIR</small><h2>Tu garaje</h2></div><h3>Estudiante <span id="studentName"></span></h3><div class="choices" id="people" role="group" aria-label="Seleccionar estudiante"></div><p id="bio"></p><h3>Vehículo <span id="vehicleName"></span></h3><div class="choices vehicles" id="vehicles" role="group" aria-label="Seleccionar vehículo"></div><p id="handling"></p><section class="safety"><div><small>SEGURIDAD VIAL</small><p id="helmetStatus" role="status">Coloca el casco y abrocha la correa antes de salir.</p></div><button id="buckle">Colocar y abrochar</button></section><button class="primary" id="go" disabled>Iniciar ruta <span>▶</span></button><div class="trip"><span>Casa → Escuela</span><span>≈ 80–90 s</span><span>3 vidas</span></div><p id="record"></p><div class="tiltPref"><button type="button" id="tilt" aria-pressed="false">Activar inclinación</button><span id="tiltInfo" role="status"></span></div></section>
 </div><details><summary>Cómo jugar</summary><p>En móvil, toca los bordes o desliza para cambiar de carril. En computadora, usa ← y →. Mantén el freno o la barra espaciadora para reducir la velocidad. Pulsa P para pausar.</p></details></main><script>/*The MIT License
 
 Copyright © 2010-2023 three.js authors
@@ -199,9 +203,46 @@ let mode='ready',distance=0,lane=0,position=0,velocity=0,lives=3,score=0,clock=0
 const bars=$('bars');for(let i=0;i<20;i++){let el=document.createElement('i');el.style.setProperty('--c',i<12?'#60cdb5':i<16?'#ffc254':'#ff786c');bars.append(el)}
 function audioSync(){if(!audio)return;gain.gain.setTargetAtTime(sound&&mode==='run'&&selectedVehicle<2?.023:0,audio.currentTime,.06);engine.frequency.setTargetAtTime(35+velocity*.36,audio.currentTime,.08)}
 function chirp(note){if(!audio||!sound)return;const oscillator=audio.createOscillator(),amp=audio.createGain();oscillator.frequency.value=note;amp.gain.setValueAtTime(.055,audio.currentTime);amp.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.17);oscillator.connect(amp).connect(audio.destination);oscillator.start();oscillator.stop(audio.currentTime+.18)}
-$('sound').onclick=()=>{try{if(!audio){audio=new (window.AudioContext||window.webkitAudioContext)();engine=audio.createOscillator();gain=audio.createGain();gain.gain.value=0;engine.type='triangle';engine.connect(gain).connect(audio.destination);engine.start()}audio.resume();sound=!sound;audioSync();$('sound').querySelector('b').textContent=sound?'ON':'OFF';$('sound').setAttribute('aria-pressed',sound)}catch{}};
+function stored(key, fallback=''){try{return localStorage.getItem('rumbo-'+key)||fallback}catch{return fallback}}
+function save(key,value){try{localStorage.setItem('rumbo-'+key,String(value))}catch{}}
+let best=Number(stored('record','0'));if(!Number.isSafeInteger(best)||best<0)best=0;
+function drawRecord(){const label='Mejor puntuación · '+best.toLocaleString('es-DO');$('record').textContent=label;$('resultRecord').textContent=label}
+sound=stored('sonido')==='1';
+function soundUI(){const b=$('sound');b.textContent=sound?'♫  Silenciar':'♫  Activar sonido';b.setAttribute('aria-pressed',sound)}
+function wakeAudio(){if(!sound)return;try{if(!audio){audio=new (window.AudioContext||window.webkitAudioContext)();engine=audio.createOscillator();gain=audio.createGain();gain.gain.value=0;engine.type='triangle';engine.connect(gain).connect(audio.destination);engine.start()}audio.resume().catch(()=>{});audioSync()}catch{}}
+$('sound').onclick=()=>{sound=!sound;save('sonido',sound?'1':'0');if(sound)wakeAudio();audioSync();soundUI()};
+soundUI();drawRecord();
+
+const orientationAPI=window.DeviceOrientationEvent,motionAPI=window.DeviceMotionEvent;
+const sensorAPI=orientationAPI||motionAPI,sensorEvent=orientationAPI?'deviceorientation':'devicemotion';
+let tiltActive=false,tiltListening=false,tiltRequest=false,baseline=null,armed=true,watchdog;
+function tiltStatus(label,detail){$('tilt').textContent=label;$('tilt').setAttribute('aria-pressed',tiltActive);$('tiltInfo').textContent=detail}
+function stopTilt(message){clearTimeout(watchdog);window.removeEventListener(sensorEvent,readTilt);tiltListening=tiltActive=false;baseline=null;armed=true;tiltStatus('Activar inclinación',message)}
+function readTilt(e){
+ let degrees=e.gamma;
+ if(!orientationAPI){const a=e.accelerationIncludingGravity;if(!a||![a.x,a.y,a.z].every(Number.isFinite))return;degrees=Math.atan2(a.x,Math.hypot(a.y,a.z))*180/Math.PI}
+ if(!Number.isFinite(degrees))return;
+ if(!tiltActive){clearTimeout(watchdog);tiltActive=true;save('inclinacion','1');tiltStatus('Desactivar inclinación','Inclina a un lado y vuelve al centro para repetir.')}
+ if(mode!=='run'){baseline=null;armed=true;return}
+ if(baseline===null){baseline=degrees;return}
+ const offset=degrees-baseline;if(Math.abs(offset)<7){armed=true;return}
+ if(armed&&Math.abs(offset)>16){move(Math.sign(offset));armed=false}
+}
+function listenTilt(){tiltListening=true;baseline=null;armed=true;tiltStatus('Cancelar inclinación','Mantén el teléfono en tu posición habitual.');
+ window.addEventListener(sensorEvent,readTilt);watchdog=setTimeout(()=>{if(!tiltActive)stopTilt('Sin lectura del sensor. Puedes jugar con los dedos.')},4500)}
+$('tilt').onclick=async()=>{
+ if(tiltListening){save('inclinacion','0');stopTilt('Control táctil disponible.');return}
+ if(tiltRequest||!sensorAPI)return;
+ tiltRequest=true;$('tilt').disabled=true;
+ try{if(typeof sensorAPI.requestPermission==='function'&&await sensorAPI.requestPermission()!=='granted'){save('inclinacion','0');tiltStatus('Activar inclinación','Permiso denegado. Puedes jugar con los dedos.');return}listenTilt()}
+ catch{tiltStatus('Activar inclinación','Sensor no disponible. Puedes jugar con los dedos.')}
+ finally{tiltRequest=false;$('tilt').disabled=false}
+};
+if(!sensorAPI){$('tilt').disabled=true;tiltStatus('Inclinación no disponible','Usa los controles táctiles o el teclado.')}
+else if(stored('inclinacion')==='1'){listenTilt()}
+else tiltStatus('Activar inclinación','Opcional. Los controles táctiles siempre están disponibles.');
 function state(next){
- mode=next;braking=false;const garage=next==='ready';document.body.classList.toggle('racing',!garage);
+ mode=next;braking=false;baseline=null;armed=true;const garage=next==='ready';document.body.classList.toggle('racing',!garage);
  document.querySelectorAll('.hud,.drive,#tag').forEach(el=>el.hidden=garage);
  $('overlay').hidden=garage||next==='run';$('play').textContent=next==='pause'?'Continuar':'Volver a jugar';
  $('message').textContent={pause:'Ruta en pausa',won:'¡Llegaste a la escuela!',lost:'Se agotaron tus oportunidades'}[next]||'';
@@ -209,22 +250,24 @@ function state(next){
  $('stage').setAttribute('aria-label',(garage?'Vista previa de ':'En carrera: ')+students[selectedStudent].name+' · '+rides[selectedVehicle].name);
  $('results').hidden=next!=='won'&&next!=='lost';
  if(next==='won'||next==='lost'){
+ const prior=Number(stored('record','0'));best=Math.max(best,score,Number.isSafeInteger(prior)?prior:0);save('record',best);drawRecord();
  $('finalScore').textContent=score.toLocaleString('es-DO');$('finalObstacles').textContent=passed+' de '+rows.length+' obstáculos superados';
  $('finalSafety').textContent=decisions+' de 5 decisiones de seguridad acertadas';
  $('finalBonus').textContent='Seguridad +'+bonus+(next==='won'?' · Llegada +500 · Vidas +'+lives*75:'');}
  if(next!=='run')$('notice').hidden=true;
  audioSync();
 }
-function start(){if(!helmetReady)return;resetSafety();distance=0;lane=position=0;velocity=100;clock=slow=score=passed=0;score=bonus;lives=3;seen.clear();state('run');chirp(450);render()}
+function start(){if(!helmetReady)return;wakeAudio();resetSafety();distance=0;lane=position=0;velocity=100;clock=slow=score=passed=0;score=bonus;lives=3;seen.clear();state('run');chirp(450);render()}
 function pauseGame(){if(mode==='run')state('pause');else if(mode==='pause')state('run')}
 $('play').onclick=()=>mode==='pause'?state('run'):start();$('pause').onclick=pauseGame;$('restart').onclick=start;
 function move(n){if(mode==='run')lane=Math.max(-1,Math.min(1,lane+n))}
 const track=$('scene');let gesture;
-track.onpointerdown=e=>{if(mode!=='run')return;gesture={x:e.clientX,id:e.pointerId};track.setPointerCapture(e.pointerId)};
-track.onpointerup=e=>{if(!gesture||e.pointerId!==gesture.id)return;let dx=e.clientX-gesture.x,b=track.getBoundingClientRect(),f=(e.clientX-b.left)/b.width;gesture=null;if(Math.abs(dx)>18)move(Math.sign(dx));else if(f<.4||f>.6)move(f<.5?-1:1)};
+track.onpointerdown=e=>{if(mode!=='run'||gesture)return;gesture={x:e.clientX,y:e.clientY,id:e.pointerId};track.setPointerCapture(e.pointerId)};
+track.onpointerup=e=>{if(!gesture||e.pointerId!==gesture.id)return;let dx=e.clientX-gesture.x,dy=e.clientY-gesture.y,b=track.getBoundingClientRect(),f=(e.clientX-b.left)/b.width;gesture=null;if(Math.abs(dy)>18&&Math.abs(dy)>Math.abs(dx))return;if(Math.abs(dx)>18)move(Math.sign(dx));else if(f<.4||f>.6)move(f<.5?-1:1)};
 track.onpointercancel=()=>gesture=null;
+for(const name of ['gesturestart','gesturechange','touchmove'])document.addEventListener(name,e=>{if(mode!=='ready'&&e.cancelable)e.preventDefault()},{passive:false});
 const brake=$('brake');brake.onpointerdown=e=>{e.preventDefault();if(mode==='run'){braking=true;brake.setPointerCapture(e.pointerId)}};brake.onlostpointercapture=brake.onpointercancel=brake.onpointerup=()=>braking=false;
-window.addEventListener('keydown',e=>{if(e.code==='Space'&&document.activeElement?.tagName==='BUTTON'&&mode!=='run')return;if(['ArrowLeft','ArrowRight','Space','Escape','KeyP'].includes(e.code)){e.preventDefault();if(e.code==='Space'){if(mode==='run')braking=true;return}if(e.repeat)return;if(e.code==='ArrowLeft')move(-1);else if(e.code==='ArrowRight')move(1);else pauseGame()}});
+window.addEventListener('keydown',e=>{if(mode==='ready')return;if(e.code==='Space'&&document.activeElement?.tagName==='BUTTON'&&mode!=='run')return;if(['ArrowLeft','ArrowRight','Space','Escape','KeyP'].includes(e.code)){e.preventDefault();if(e.code==='Space'){if(mode==='run')braking=true;return}if(e.repeat)return;if(e.code==='ArrowLeft')move(-1);else if(e.code==='ArrowRight')move(1);else pauseGame()}});
 window.addEventListener('keyup',e=>{if(e.code==='Space')braking=false});function suspend(){gesture=null;if(mode==='run')state('pause')}document.addEventListener('visibilitychange',()=>{if(document.hidden)suspend()});window.addEventListener('blur',suspend);
 function crossing(o,z){return o.type!==2?o.lane:o.lane+Math.max(0,Math.min(1,(z-32)/41))*(o.lane===-1?-2-o.lane:2-o.lane)}
 function step(dt){
@@ -234,8 +277,9 @@ function step(dt){
  const before=distance;distance=Math.min(LENGTH,distance+velocity*.132*dt);
  updateEvents(dt,before);
  rows.forEach((o,i)=>{if(seen.has(i)||o.at-distance>HIT||o.at-before<HIT)return;seen.add(i);
- if(Math.abs(position-o.lane)<.57){lives--;velocity=62;slow=1.4;chirp(95);if(lives===0)state('lost')}else passed++});
+ if(Math.abs(position-o.lane)<.57){lives--;velocity=62;slow=1.4;chirp(95);}else passed++});
  score=Math.max(0,Math.floor(distance*2)+passed*25+bonus-(3-lives)*100+(distance>=LENGTH?500+lives*75:0));
+ if(lives<=0){state('lost');return}
  if(distance>=LENGTH&&mode==='run'){state('won');chirp(700)}audioSync()
 }
 function render(){if(mode==='ready'){showroom();return}
