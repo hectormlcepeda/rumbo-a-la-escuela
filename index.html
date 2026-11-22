@@ -137,7 +137,11 @@ const shadowTex=texture(96,96,c=>{let g=c.createRadialGradient(48,48,6,48,48,47)
 function shadow(w,d){let s=new T.Mesh(new T.PlaneGeometry(w,d),new T.MeshBasicMaterial({map:shadowTex,transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-1}));s.rotation.x=-Math.PI/2;s.position.y=.029;return s}
 const skyTex=texture(1024,512,c=>{
  let sky=c.createLinearGradient(0,0,0,512);sky.addColorStop(0,'#4079ac');sky.addColorStop(.48,'#96c5df');sky.addColorStop(.72,'#e1daca');sky.addColorStop(1,'#efd7b3');c.fillStyle=sky;c.fillRect(0,0,1024,512);
- for(let i=0;i<90;i++){let x=(i%6)*195+rnd(i)*95-35,y=75+(i%6)*16+rnd(i+8)*24;let g=c.createRadialGradient(x,y,0,x,y,55);g.addColorStop(0,'rgba(255,249,233,.28)');g.addColorStop(1,'rgba(255,255,255,0)');c.save();c.translate(0,y*.64);c.scale(1,.36);c.fillStyle=g;c.fillRect(x-56,y-56,112,112);c.restore()}
+ const lattice=Array.from({length:16384},(_,i)=>rnd(i+760));
+ function noise(x,y){let i=Math.floor(x),j=Math.floor(y),u=x-i,v=y-j;u=u*u*(3-2*u);v=v*v*(3-2*v);const key=(i+j*128)&16383;let a=lattice[key]*(1-u)+lattice[(key+1)&16383]*u;let b=lattice[(key+128)&16383]*(1-u)+lattice[(key+129)&16383]*u;return a+(b-a)*v}
+ for(let y=0;y<365;y+=3)for(let x=0;x<1024;x+=3){let a=x/175,b=y/56;const n=.52*noise(a,b)+.28*noise(a*2.1,b*2.1)+.14*noise(a*4.4,b*4.4)+.06*noise(a*9,b*9);
+ let opacity=Math.min(.71,Math.max(0,(n-.49)*2.6))*(1-Math.max(0,(y-260)/110));if(opacity>.012){c.fillStyle='rgba(247,246,238,'+opacity.toFixed(3)+')';c.fillRect(x,y,3,3)}}
+
 });
 function lit(s){s.add(new T.HemisphereLight(0xeaf4fc,0x8f8072,1.23));let sun=new T.DirectionalLight(0xffe0ae,2.42);sun.position.set(-8,7,3);s.add(sun)}
 function backdrop(s){s.background=skyTex;s.fog=new T.FogExp2(0xcbd5d3,.009);let g=group();
